@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only read/write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Devices can only be accessed by the user who owns them (matching email)
+    match /devices/{deviceId} {
+      allow read, write: if request.auth != null && 
+        request.auth.token.email == resource.data.email;
+      
+      // Allow ESP32 devices to update their own data using custom auth
+      // This would require implementing custom authentication for ESP32
+      // For now, we'll use a simpler approach with email matching
+      allow create: if request.auth != null && 
+        request.auth.token.email == request.resource.data.email;
+    }
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
