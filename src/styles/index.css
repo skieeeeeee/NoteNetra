@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter;
+
+  caret-color: #007BFF;
+}
+
+* {
+  box-sizing: border-sizing;
+  line-height: normal;
+  font-family: inherit;
+  margin: unset;
+}
+
+a, button, input, textarea {
+  transition: box-shadow 0.2s;
+}
+a:focus, button:focus, input:focus, textarea:focus {
+  box-shadow: 0 0 0 2px #007BFF, 0 0 10px #007BFF;
+  outline: none;
+}
